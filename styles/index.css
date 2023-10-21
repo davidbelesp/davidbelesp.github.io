@@ -1,0 +1,131 @@
+:root{
+    --pfp: url(../res/igpfp.jpg);
+    
+    --border-color: #FFFFFF ;
+    --bgcolor: linear-gradient(180deg, rgba(37,41,48,1) 0%, rgba(0,10,133,1) 100%);
+    --invisible: #FFFFFF00;
+
+    --card-color: linear-gradient(40deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 50%, rgb(0, 81, 148) 100%);
+    --card-color2: linear-gradient(40deg, rgb(13, 0, 255) 0%, rgba(9,9,121,1) 50%, rgb(0, 81, 148) 100%);
+}
+
+
+.content{
+    background: var(--bgcolor);
+
+    width: 100%;
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+
+.header{
+    width: 100%;
+    height: 300px;
+
+    background: url(../res/binary-code-banner-vector.jpg);
+    background-size: cover;
+
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* PROFILE INFO */
+
+.info{
+    background: var(--invisible);
+
+    color: black;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.profileImage{
+    position: relative;
+    top: -5rem;
+
+    width: 10rem;
+    height: 10rem;
+
+    border-radius: 1000px;
+    border: 5px solid var(--border-color);
+
+    background: var(--pfp);
+    background-size: cover;
+}
+
+.name{
+    color: white;
+
+    margin: 10px 0;
+    font-size: 2rem;
+}
+
+/* BEACONS */
+
+.beacons{
+    width: 100%;
+    height: 500px;
+
+    background: var(--invisible);
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 30px;
+}
+
+.card{
+    color: white;
+    text-decoration: none;
+
+    min-width: 100px;
+    width: 50%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 20px;
+    
+    border-radius: 60px;
+    border: 3px solid var(--border-color);
+    
+    
+    background: linear-gradient(-45deg, #14132b, #002950, #23a6d5, #180d3d);
+    background-position: 0% 50%;
+    transition: background-position .4s linear;
+	background-size: 400% 400%;
+} .card:hover{
+    background-position: 100% 50%;
+    cursor: pointer;
+}
+
+.card-title{
+}
+
+.card-logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+}
+
+
+/* ANIMATIONS */
+
+@keyframes cardcolor {
+    0% {
+		background-position: 0% 50%;
+	}
+	100% {
+		
+	}
+  }
