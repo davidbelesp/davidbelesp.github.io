@@ -2,7 +2,8 @@
     --pfp: url(../res/igpfp.jpg);
     
     --border-color: #FFFFFF ;
-    --bgcolor: linear-gradient(180deg, rgba(37,41,48,1) 0%, rgba(0,10,133,1) 100%);
+    --bgcolor2: linear-gradient(180deg, rgba(37,41,48,1) 0%, rgba(0,10,133,1) 100%);
+    --bgcolor: black;
     --invisible: #FFFFFF00;
 
     --card-color: linear-gradient(40deg, rgba(2,0,36,1) 0%, rgba(9,9,121,1) 50%, rgb(0, 81, 148) 100%);
@@ -60,10 +61,21 @@
 }
 
 .name{
+    position: relative;
+    top: -3rem;
+    padding: 5px 10px;
+
+    font-family: 'Space Mono', monospace;
+    font-weight: bold;
+    font-size: 2rem;
     color: white;
 
+    border-radius: 5px;
+
     margin: 10px 0;
-    font-size: 2rem;
+} .name:hover{
+    background-color: white;
+    color: black;
 }
 
 /* BEACONS */
@@ -95,20 +107,23 @@
 
     padding: 20px;
     
-    border-radius: 60px;
     border: 3px solid var(--border-color);
     
+    transform: skew(-20deg);
     
-    background: linear-gradient(-45deg, #14132b, #002950, #23a6d5, #180d3d);
+    background: linear-gradient(-45deg, #14132b, #14132b, #002950, #23a6d5, #180d3d);
     background-position: 0% 50%;
+    transition-duration: .4s;
     transition: background-position .4s linear;
 	background-size: 400% 400%;
-} .card:hover{
     background-position: 100% 50%;
+} .card:hover{
+    background-position: 0% 0%;
     cursor: pointer;
-}
 
-.card-title{
+    box-shadow: 0 0 20px #ffffff90;
+} .card > *{
+    transform: skew(20deg);
 }
 
 .card-logo{
