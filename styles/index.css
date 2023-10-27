@@ -67,7 +67,7 @@
 
     font-family: 'Space Mono', monospace;
     font-weight: bold;
-    font-size: 2rem;
+    font-size: min(5vw, 32px);
     color: white;
 
     border-radius: 5px;
@@ -138,7 +138,7 @@
 @media (max-width: 800px) {
     .card{
 
-        min-width: 80%;
+        min-width: 60%;
 
     }
 }
