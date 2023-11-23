@@ -1,7 +1,7 @@
 
 body {
     --sb-track-color: #232e33;
-    --sb-thumb-color: #d965fb;
+    --sb-thumb-color: rgb(68, 75, 116) ;
     --sb-size: 12px;
   
     scrollbar-color: var(--sb-thumb-color) 
@@ -18,7 +18,7 @@ body {
   
   body::-webkit-scrollbar-thumb {
     background: var(--sb-thumb-color);
-    border-radius: 12px;
+
 
     }body::-webkit-scrollbar-thumb:hover{
         cursor: pointer;
