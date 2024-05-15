@@ -4,6 +4,7 @@ import { IndexComponent } from './pages/index/index.component';
 
 const routes: Routes = [
   {path: "", component: IndexComponent, pathMatch: "full"},
+  {path: "japanese", loadChildren: () => import("./pages/japanese/japanese.module").then(m => m.JapaneseModule)},
   {path: "**", redirectTo: "/", pathMatch: "full"}
 ];
 
