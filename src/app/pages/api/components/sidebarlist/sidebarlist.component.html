@@ -1,0 +1,56 @@
+<cdk-accordion>
+  <cdk-accordion-item
+    *ngFor="let section of data; let index = index"
+    #accordionItem="cdkAccordionItem"
+    class="example-accordion-item"
+    role="button"
+    tabindex="0"
+    [attr.id]="'accordion-header-' + index"
+    [attr.aria-expanded]="accordionItem.expanded"
+    [attr.aria-controls]="'accordion-body-' + index"
+  >
+    <div
+      class="section-title d-flex gap-2 flex-md-row align-items-center"
+      (click)="accordionItem.toggle()"
+    >
+      <app-icon
+        [icon]="accordionItem.expanded ? 'arrow-up' : 'arrow-down'"
+      ></app-icon>
+      <span>{{ section.name }}</span>
+    </div>
+
+    <div
+      role="region"
+      [style.display]="accordionItem.expanded ? '' : 'none'"
+      [attr.id]="'accordion-body-' + index"
+      [attr.aria-labelledby]="'accordion-header-' + index"
+    >
+      <ul class="list-group">
+        <div class="data-list">
+          <li *ngFor="let element of section.fields" class="list-unstyled">
+            <a
+              href="/api/gtnh/{{ section.name.toLocaleLowerCase() }}/field/{{
+                element.name.toLocaleLowerCase()
+              }}"
+            >
+              <tag text="field"></tag>
+              <span class="element-name">{{ element.name }}</span>
+            </a>
+          </li>
+        </div>
+        <div class="data-list">
+          <li *ngFor="let element of section.functions" class="list-unstyled">
+            <a
+              href="/api/gtnh/{{ section.name.toLocaleLowerCase() }}/function/{{
+                element.name.toLocaleLowerCase()
+              }}"
+            >
+              <tag text="function"></tag>
+              <span class="element-name">{{ element.name }}</span>
+            </a>
+          </li>
+        </div>
+      </ul>
+    </div>
+  </cdk-accordion-item>
+</cdk-accordion>

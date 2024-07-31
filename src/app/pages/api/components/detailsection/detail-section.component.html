@@ -1,0 +1,41 @@
+<div *ngIf="element" class="comp">
+  <div class="element-title">
+      <span >{{element.name}}</span>    
+  </div>
+  
+  <div class="publish-date d-flex justify-content-between align-items-center">
+    <tag text="NEW" color="yellow"></tag>
+    <span>Published on: 2024-07-31</span>
+  </div>
+  
+  <div class="element-description mt-4">
+    <p>{{element.description}}</p>
+  </div>
+  
+
+  <div class="name-field">
+    <span *ngIf="sectionKeyUrl === 'function'">{{element!.name + '(' + getElementParams() + ')'}}</span>
+    <span *ngIf="sectionKeyUrl === 'field'">{{section!.name + '.' + element.name}}</span>
+
+    <div class="copy-icon">
+      <app-icon (click)="copyToClipboard()" [icon]="'copy'"></app-icon>
+    </div>
+  </div>
+
+  <div class="separator"></div>
+  
+  <div *ngIf="sectionKeyUrl === 'function' && element.parameters.length > 1" class="sub-category">
+    <span>Parameters</span>
+  </div>
+  <div class="parameter-box" *ngIf="sectionKeyUrl === 'function'">
+    <div *ngFor="let param of element.parameters">
+      <div class="param-slot">
+        <div class="parameter">
+          <div class="parameter-name"><span>{{param.name}}</span></div>
+          <div class="parameter-type"><span>{{param.type}}</span></div>
+        </div>
+        <div class="parameter-desc"><span>{{param.description}}</span></div>
+      </div>
+    </div>
+  </div>
+</div>

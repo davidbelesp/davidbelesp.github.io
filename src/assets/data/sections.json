@@ -1,0 +1,759 @@
+[
+    {
+        "name": "CommonNetworkAPI",
+        "description": null,
+        "functions": [
+            {
+                "name": "getCpus",
+                "description": "Get a list of all available cpus on the network.",
+                "returns": "AECpuMetadata[]",
+                "parameters": []
+            },
+            {
+                "name": "allItems",
+                "description": "Get an iterator object for the list of the items in the network.",
+                "returns": "fun():MEItemStack|nil",
+                "parameters": []
+            },
+            {
+                "name": "getItemsInNetwork",
+                "description": "Get a list of the stored items in the network.",
+                "returns": "MEItemStack[]",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "type": "MEItemStackFilter",
+                        "description": "A filter for the query"
+                    }
+                ]
+            },
+            {
+                "name": "store",
+                "description": "Store items in the network matching the specified filter in the database with the specified address.",
+                "returns": "boolean",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "type": "MEItemStackFilter",
+                        "description": "A filter of items to look for."
+                    },
+                    {
+                        "name": "dbAddress",
+                        "type": "string",
+                        "description": "Address of the internal database to store items to."
+                    },
+                    {
+                        "name": "startSlot",
+                        "type": "integer",
+                        "description": "Optional, start index of the first item to store"
+                    },
+                    {
+                        "name": "count",
+                        "type": "integer",
+                        "description": "Optional, how many items to store"
+                    }
+                ]
+            },
+            {
+                "name": "getEssentiaInNetwork",
+                "description": "Get a list of the stored essentia in the network.",
+                "returns": "EssentiaStack[]",
+                "parameters": []
+            },
+            {
+                "name": "getFluidsInNetwork",
+                "description": "Get a list of the stored fluids in the network.",
+                "returns": "MEFluidStack[]",
+                "parameters": []
+            },
+            {
+                "name": "getCraftables",
+                "description": "Get a list of known item recipes. These can be used to issue crafting requests.",
+                "returns": "AECraftable",
+                "parameters": [
+                    {
+                        "name": "filter",
+                        "type": "AECraftableFilter",
+                        "description": "Optional filter for the query"
+                    }
+                ]
+            },
+            {
+                "name": "getAvgPowerInjection",
+                "description": "Get the average power injection into the network.",
+                "returns": "number",
+                "parameters": []
+            },
+            {
+                "name": "getAvgPowerUsage",
+                "description": "Get the average power usage of the network.",
+                "returns": "number",
+                "parameters": []
+            },
+            {
+                "name": "getMaxStoredPower",
+                "description": "Get the maximum stored power in the network.",
+                "returns": "number",
+                "parameters": []
+            },
+            {
+                "name": "getStoredPower",
+                "description": "Get the stored power in the network.",
+                "returns": "number",
+                "parameters": []
+            },
+            {
+                "name": "getIdlePowerUsage",
+                "description": "Get the idle power usage of the network.",
+                "returns": "number",
+                "parameters": []
+            }
+        ],
+        "fields": [
+            {
+                "name": "address",
+                "type": "string",
+                "value": "The address of the network."
+            }
+        ]
+    },
+    {
+        "name": "database",
+        "description": null,
+        "functions": [
+            {
+                "name": "get",
+                "description": "Get the representation of the item stack stored in the specified slot.",
+                "returns": "ItemStack|nil",
+                "return_description": "The item stack's descriptor if a value was found.",
+                "parameters": [
+                    {
+                        "name": "slot",
+                        "type": "integer",
+                        "description": "The slot to get an item from."
+                    }
+                ]
+            },
+            {
+                "name": "indexOf",
+                "description": "Gets the index of an item stack with the specified hash. Returns a negative value if no such stack was found.",
+                "returns": "number",
+                "return_description": "slot of the item or -1 if not found",
+                "parameters": [
+                    {
+                        "name": "hash",
+                        "type": "string",
+                        "description": "The hash of the item you are looking for."
+                    }
+                ]
+            },
+            {
+                "name": "set",
+                "description": "Set an item into the specified database slot. NBT tag is expected in JSON format",
+                "returns": "boolean",
+                "return_description": "True if the item was succesfully written.",
+                "parameters": [
+                    {
+                        "name": "slot",
+                        "type": "integer",
+                        "description": "The slot to write an item to"
+                    },
+                    {
+                        "name": "id",
+                        "type": "string",
+                        "description": "The unlocalided name of the item eg: minecraft:stone"
+                    },
+                    {
+                        "name": "damage",
+                        "type": "integer",
+                        "description": "The damage/metadata of the item"
+                    },
+                    {
+                        "name": "nbt",
+                        "type": "string",
+                        "description": "The nbt of the item, formatted using JSON"
+                    }
+                ]
+            },
+            {
+                "name": "clear",
+                "description": "Clears the specified slot. Returns true if there was something in the slot before.",
+                "returns": "boolean",
+                "return_description": "Returns true if there was something in the slot before.",
+                "parameters": [
+                    {
+                        "name": "slot",
+                        "type": "integer"
+                    }
+                ]
+            },
+            {
+                "name": "clone",
+                "description": "Copies the data stored in this database to another database with the specified address. Will error if the database has empty slots.",
+                "returns": "integer",
+                "return_description": "how many slots were overwritten.",
+                "parameters": [
+                    {
+                        "name": "dbAddress",
+                        "type": "string",
+                        "description": "The address of the database to copy to."
+                    }
+                ]
+            },
+            {
+                "name": "computeHash",
+                "description": "Computes a hash value for the item stack in the specified slot.",
+                "returns": "string",
+                "retuirn_description": "The hash value of the item stack.",
+                "parameters": [
+                    {
+                        "name": "slot",
+                        "type": "integer",
+                        "description": "The slot to comupte the hash for"
+                    }
+                ]
+            },
+            {
+                "name": "copy",
+                "description": "Copies an entry to another slot, optionally to another database. Returns true if something was overwritten.",
+                "returns": "boolean",
+                "return_description": "True if something was overwritten.",
+                "parameters": [
+                    {
+                        "name": "fromSlot",
+                        "type": "integer",
+                        "description": "The slot to copy from"
+                    },
+                    {
+                        "name": "toStot",
+                        "type": "integer",
+                        "description": "The slot to copy to"
+                    },
+                    {
+                        "name": "dbAddress",
+                        "type": "string",
+                        "description": "(Optional) The address of the database to copy to."
+                    }
+                ]
+            }
+        ],
+        "fields": [
+            {
+                "name": "address",
+                "type": "string",
+                "value": "The database's address"
+            },
+            {
+                "name": "slot",
+                "type": "integer",
+                "value": "unknown usage"
+            },
+            {
+                "name": "type",
+                "type": "string",
+                "value": "database"
+            }
+        ]
+    },
+    {
+        "name": "gpu",
+        "description": null,
+        "functions": [
+            {
+                "name": "bind",
+                "description": "Tries to bind the GPU to a screen with the specified address. Resets the screen unless reset is set to false. A GPU can only be bound to one screen at a time. All operations on it will work on the bound screen. If you wish to control multiple screens at once, you'll need to put more than one graphics card into your computer.",
+                "returns": "boolean",
+                "return_description": "true on success",
+                "parameters": [
+                    {
+                        "name": "address",
+                        "type": "string",
+                        "description": "The address of the screen"
+                    },
+                    {
+                        "name": "reset",
+                        "type": "boolean",
+                        "description": "Set to false to prevent a screen reset"
+                    }
+                ]
+            },
+            {
+                "name": "getScreen",
+                "description": "Returns the address of the screen bound to the gpu.",
+                "returns": "string",
+                "return_description": "address",
+                "parameters": []
+            },
+            {
+                "name": "getBackground",
+                "description": "Gets the current background color.",
+                "returns": "integer",
+                "return_description": "color 0x00RRGGBB int for generic colors, 0-15 when using a palettes",
+                "parameters": []
+            },
+            {
+                "name": "setBackground",
+                "description": "Sets the background color.",
+                "returns": "integer",
+                "return_description": "The old color value it was set to, not compressed to gpu's color depth",
+                "parameters": [
+                    {
+                        "name": "color",
+                        "type": "integer",
+                        "description": "The color an integer in the format of 0x00RRGGBB or the palette index when using a palette"
+                    },
+                    {
+                        "name": "isPaletteIndex",
+                        "type": "boolean",
+                        "description": "Wether the color parameter is a palette index, defaults to true"
+                    }
+                ]
+            },
+            {
+                "name": "getForeground",
+                "description": "Gets the current foreground/text color.",
+                "returns": "integer",
+                "return_description": "color 0x00RRGGBB int for generic colors, 0-15 when using a palettes",
+                "parameters": []
+            },
+            {
+                "name": "setForeground",
+                "description": "Sets the foreground/text color.",
+                "returns": "integer",
+                "return_description": "The old color value it was set to, not compressed to gpu's color depth",
+                "parameters": [
+                    {
+                        "name": "color",
+                        "type": "integer",
+                        "description": "The color an integer in the format of 0x00RRGGBB or the palette index when using a palette"
+                    },
+                    {
+                        "name": "isPaletteIndex",
+                        "type": "boolean",
+                        "description": "Wether the color parameter is a palette index, defaults to true"
+                    }
+                ]
+            },
+            {
+                "name": "getPaletteColor",
+                "description": "Gets the current color of a palette.",
+                "returns": "integer",
+                "return_description": "The color as an integer in the format of 0x00RRGGBB.",
+                "parameters": [
+                    {
+                        "name": "index",
+                        "type": "integer",
+                        "description": "The index of the palette."
+                    }
+                ]
+            },
+            {
+                "name": "setPaletteColor",
+                "description": "Sets the RGB value of the color in the palette at the specified index.",
+                "returns": "integer",
+                "return_description": "The old color as an integer in the format of 0x00RRGGBB.",
+                "parameters": [
+                    {
+                        "name": "index",
+                        "type": "integer",
+                        "description": "The index of the palette."
+                    },
+                    {
+                        "name": "value",
+                        "type": "integer",
+                        "description": "The new color as an integer in the format of 0x00RRGGBB."
+                    }
+                ]
+            },
+            {
+                "name": "maxDepth",
+                "description": "Gets the maximum supported color depth supported by the GPU and the screen it is bound to (minimum of the two).",
+                "returns": "integer",
+                "return_description": "The maximum color depth of the gpu.",
+                "parameters": []
+            },
+            {
+                "name": "getDepth",
+                "description": "Gets the currently set color depth of the GPU/screen, in bits. Can be 1, 4 or 8.",
+                "returns": "integer",
+                "return_description": "The maximum color depth of the gpu.",
+                "parameters": []
+            },
+            {
+                "name": "setDepth",
+                "description": "Sets the color depth to use. Can be up to the maximum supported color depth. If a larger or invalid value is provided it will throw an error.",
+                "returns": "string",
+                "return_description": "The old depth as one of the strings OneBit, FourBit, or EightBit.",
+                "parameters": [
+                    {
+                        "name": "bit",
+                        "type": "integer",
+                        "description": "Either 1, 4, or 8"
+                    }
+                ]
+            },
+            {
+                "name": "maxResolution",
+                "description": "Gets the maximum resolution supported by the GPU and the screen it is bound to (minimum of the two).",
+                "returns": "integer",
+                "return_description": "The maximum resolution's width",
+                "parameters": []
+            },
+            {
+                "name": "getResolution",
+                "description": "Gets the current resolution of the GPU.",
+                "returns": "integer",
+                "return_description": "The current resolution's width",
+                "parameters": []
+            },
+            {
+                "name": "setResolution",
+                "description": "Sets the specified resolution. Can be up to the maximum supported resolution. If a larger or invalid resolution is provided it will throw an error.",
+                "returns": "boolean",
+                "return_description": "True if the resolution was changed (may return false if an attempt was made to set it to the same value it was set before), false otherwise.",
+                "parameters": [
+                    {
+                        "name": "width",
+                        "type": "integer",
+                        "description": "The desired width"
+                    },
+                    {
+                        "name": "height",
+                        "type": "integer",
+                        "description": "The desired height"
+                    }
+                ]
+            },
+            {
+                "name": "getViewport",
+                "description": "Get the current viewport resolution.",
+                "returns": "integer",
+                "return_description": "The width of the viewport",
+                "parameters": []
+            },
+            {
+                "name": "setViewport",
+                "description": "Set the current viewport resolution.",
+                "returns": "boolean",
+                "return_description": "True if it was changed (may return false if an attempt was made to set it to the same value it was set before), false otherwise.",
+                "parameters": [
+                    {
+                        "name": "width",
+                        "type": "integer",
+                        "description": "The resolution of the viewport"
+                    },
+                    {
+                        "name": "height",
+                        "type": "integer",
+                        "description": "The resolution of the viewport"
+                    }
+                ]
+            },
+            {
+                "name": "get",
+                "description": "Gets the character, foreground/text color and the background color at a specific coordinate",
+                "returns": "string, integer, integer, integer|nil, integer|nil",
+                "return_description": "The character being displayed, the color of the text being displayed as an integer in the format of 0x00RRGGBB, the color of the text being displayed as an integer in the format of 0x00RRGGBB, the palette index if the text color uses a palette, the palette index if the background color uses a palette.",
+                "parameters": [
+                    {
+                        "name": "x",
+                        "type": "integer",
+                        "description": "The x coordinate of the character"
+                    },
+                    {
+                        "name": "y",
+                        "type": "integer",
+                        "description": "The y coordinate of the character"
+                    }
+                ]
+            },
+            {
+                "name": "set",
+                "description": "Writes a string to the screen, starting at the specified coordinates. The string will be copied to the screen's buffer directly, in a single row. This means even if the specified string contains line breaks, these will just be printed as special characters, the string will not be displayed over multiple lines. If the 4th parameter is set to true, the text will be displayed vertically",
+                "returns": "string",
+                "return_description": "true if the string was displayed succesfully",
+                "parameters": [
+                    {
+                        "name": "x",
+                        "type": "integer",
+                        "description": "The x coordinate of the start of the text"
+                    },
+                    {
+                        "name": "y",
+                        "type": "integer",
+                        "description": "The y coordinate of the start of the text"
+                    },
+                    {
+                        "name": "value",
+                        "type": "string",
+                        "description": "The string to display"
+                    },
+                    {
+                        "name": "vertical",
+                        "type": "boolean",
+                        "description": "Set to true to display the text vertically, defaults to false."
+                    }
+                ]
+            },
+            {
+                "name": "copy",
+                "description": "Copies a portion of the screens buffer to another location. The source rectangle is specified by the x, y, width and height parameters. The target rectangle is defined by x + tx, y + ty, width and height.",
+                "returns": "boolean",
+                "return_description": "success on success, false otherwise.",
+                "parameters": [
+                    {
+                        "name": "x",
+                        "type": "integer",
+                        "description": "The x coordinate of the top left corner of the source rectangle."
+                    },
+                    {
+                        "name": "y",
+                        "type": "integer",
+                        "description": "The y coordinate of the top left corner of the source rectangle."
+                    },
+                    {
+                        "name": "width",
+                        "type": "integer",
+                        "description": "The width of the source rectangle."
+                    },
+                    {
+                        "name": "height",
+                        "type": "integer",
+                        "description": "The height of the source rectangle."
+                    },
+                    {
+                        "name": "tx",
+                        "type": "integer",
+                        "description": "The x coordinate of the top left corner of the destination."
+                    },
+                    {
+                        "name": "ty",
+                        "type": "integer",
+                        "description": "The y coordinate of the top right corner of the destination."
+                    }
+                ]
+            },
+            {
+                "name": "fill",
+                "description": "Fills a rectangle in the screen buffer with the specified character. The target rectangle is specified by the x and y coordinates and the rectangle's width and height. The fill character char must be a string of length one, i.e. a single character. Note that filling screens with spaces ( ) is usually less expensive, i.e. consumes less energy, because it is considered a “clear” operation (see config).",
+                "returns": "boolean",
+                "return_description": "success on success, false otherwise.",
+                "parameters": [
+                    {
+                        "name": "x",
+                        "type": "integer",
+                        "description": "The x coordinate of the top left corner of the rectangle."
+                    },
+                    {
+                        "name": "y",
+                        "type": "integer",
+                        "description": "The y coordinate of the top left corner of the rectangle."
+                    },
+                    {
+                        "name": "width",
+                        "type": "integer",
+                        "description": "The width of the rectangle to fill."
+                    },
+                    {
+                        "name": "height",
+                        "type": "integer",
+                        "description": "The height of the rectangle to fill."
+                    },
+                    {
+                        "name": "char",
+                        "type": "string",
+                        "description": "The character to display"
+                    }
+                ]
+            },
+            {
+                "name": "getActiveBuffer",
+                "description": "Returns the index of the currently selected buffer. 0 is reserved for the screen, and may return 0 even when there is no screen",
+                "returns": "integer",
+                "return_description": "bufferIndex the index of the active buffer.",
+                "parameters": []
+            },
+            {
+                "name": "setActiveBuffer",
+                "description": "Sets the active buffer to index. 0 is reserved for the screen and can be set even when there is no screen.",
+                "returns": "integer|nil",
+                "return_description": "bufferIndex Returns nil for an invalid index (0 is valid even with no screen)",
+                "parameters": [
+                    {
+                        "name": "index",
+                        "type": "integer",
+                        "description": "The index of the buffer to set as active."
+                    }
+                ]
+            },
+            {
+                "name": "buffers",
+                "description": "Returns an array of all current page indexes (0 is not included in this list, that is reserved for the screen).",
+                "returns": "integer[]",
+                "return_description": "bufferIndexes the indexes of all the active buffers, screen not included",
+                "parameters": []
+            },
+            {
+                "name": "allocateBuffer",
+                "description": "Allocates a buffer with the gpu's max resolution as it's dimention. A buffer can be allocated even when there is no screen bound to this gpu. Index 0 is always reserved for the screen and thus the lowest possible index of an allocated buffer is always 1.",
+                "returns": "integer|nil",
+                "return_description": "bufferIndex Returns the index of this new buffer or nil if it couldn't be allocated.",
+                "parameters": []
+            },
+            {
+                "name": "allocateBuffer",
+                "description": "Allocates a buffer with the specified dimentions. A buffer can be allocated even when there is no screen bound to this gpu. Index 0 is always reserved for the screen and thus the lowest possible index of an allocated buffer is always 1.",
+                "returns": "integer|nil",
+                "return_description": "bufferIndex Returns the index of this new buffer or nil if it couldn't be allocated.",
+                "parameters": [
+                    {
+                        "name": "width",
+                        "type": "integer",
+                        "description": "The width of the buffer"
+                    },
+                    {
+                        "name": "height",
+                        "type": "integer",
+                        "description": "The height of the buffer"
+                    }
+                ]
+            },
+            {
+                "name": "freeBuffer",
+                "description": "Frees the current buffer. The gpu automatically switches back to buffer 0 (the screen buffer)",
+                "returns": "boolean",
+                "return_description": "success True if the buffer was succesfully freed",
+                "parameters": []
+            },
+            {
+                "name": "freeBuffer",
+                "description": "Frees the specified buffer. Removes buffer at the specified index. Returns true if the buffer was removed. The gpu automatically switches back to buffer 0 (the screen buffer) if the buffer is the active buffer",
+                "returns": "boolean",
+                "return_description": "success True if the buffer was succesfully freed",
+                "parameters": [
+                    {
+                        "name": "bufferIndex",
+                        "type": "integer",
+                        "description": "The index of the buffer to free"
+                    }
+                ]
+            },
+            {
+                "name": "freeAllBuffers",
+                "description": "Removes all buffers, freeing all video memory. The buffer index is always 0 after this call.",
+                "returns": "",
+                "parameters": []
+            },
+            {
+                "name": "getBufferSize",
+                "description": "Returns the dimentions of the active buffer.",
+                "returns": "integer",
+                "return_description": "width The width of the active buffer.",
+                "parameters": []
+            },
+            {
+                "name": "getBufferSize",
+                "description": "Returns the dimentions of the specified buffer",
+                "returns": "integer",
+                "return_description": "width The width of the active buffer.",
+                "parameters": [
+                    {
+                        "name": "bufferIndex",
+                        "type": "integer",
+                        "description": "The index of the buffer you want the dimentions of."
+                    }
+                ]
+            },
+            {
+                "name": "bitblt",
+                "description": "Copy a region from buffer to buffer, screen to buffer, or buffer to screen. bitblt should preform very fast on repeated use. If the buffer is dirty there is an initial higher cost to sync the buffer with the destination object. If you have a large number of updates to make with frequent bitblts, consider making multiple and smaller buffers. If you plan to use a static buffer (one with few or no updatse), then a large buffer is just fine.",
+                "returns": "boolean",
+                "return_description": "success True on success",
+                "parameters": [
+                    {
+                        "name": "dst",
+                        "type": "integer",
+                        "description": "The destination of the buffer defaults to 0"
+                    },
+                    {
+                        "name": "dstX",
+                        "type": "integer",
+                        "description": "The x coordinate of the top left corner of the rectangle to paste on the destination buffer. defaults to 1"
+                    },
+                    {
+                        "name": "dstY",
+                        "type": "integer",
+                        "description": "The y coordinate of the top left corner of the rectangle to paste on the destination buffer. defaults to 1"
+                    },
+                    {
+                        "name": "width",
+                        "type": "integer",
+                        "description": "The width of the copied rectanlge. Defaults to the width of the destination buffer."
+                    },
+                    {
+                        "name": "height",
+                        "type": "integer",
+                        "description": "The height of the copied rectangle. Defaults to the height of the destination buffer."
+                    },
+                    {
+                        "name": "src",
+                        "type": "integer",
+                        "description": "The source of the buffer defaults to 0"
+                    },
+                    {
+                        "name": "srcX",
+                        "type": "integer",
+                        "description": "The x coordinate of the top left corner of the rectangle to copy on the source buffer."
+                    },
+                    {
+                        "name": "srcY",
+                        "type": "integer",
+                        "description": "The y coordinate of the top left corner of the rectangle to copy on the source buffer."
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "inventory_controller",
+        "description": null,
+        "functions": [
+            {
+                "name": "getStackInInternalSlot",
+                "description": "Gets Itemstack description of item in the specified (or selected slot if no slot number is provided) of robot inventory.",
+                "returns": "ItemStack|nil",
+                "parameters": [
+                    {
+                        "name": "slot",
+                        "type": "integer",
+                        "description": "which slot to look at"
+                    }
+                ]
+            },
+            {
+                "name": "getStackInSlot",
+                "description": "Gets Itemstack description of item in the specified of an external inventory.",
+                "returns": "ItemStack|nil",
+                "parameters": [
+                    {
+                        "name": "side",
+                        "type": "integer",
+                        "description": "which side to look at"
+                    },
+                    {
+                        "name": "slot",
+                        "type": "integer",
+                        "description": "which slot to look at"
+                    }
+                ]
+            }
+        ],
+        "fields": [
+            {
+                "name": "address",
+                "type": "string",
+                "value": "The address of the inventory"
+            }
+        ]
+    }
+]

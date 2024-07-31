@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+.section-title{
+    margin-bottom: 10px;
+    user-select: none;
+
+    span {
+        font-size: .8rem;
+        color: #000000;
+    }
+}
+
+.data-list{
+    border-left: 1px solid #e0e0e0;
+    font-family: "Source Code Pro", monospace;
+    font-size: .8rem;
+    padding-left: 15px;
+    margin-left: 5px;
+}
