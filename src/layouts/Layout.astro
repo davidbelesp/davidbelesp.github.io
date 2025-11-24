@@ -1,3 +1,8 @@
+---
+import MainComponent from "@/components/MainComponent.astro";
+import TopMenu from "@/components/TopMenu.astro";
+---
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -5,18 +10,27 @@
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>David Beltrán Esperilla</title>
+		<meta lang="en"/>
+		<meta name="author" content="David Beltrán Esperilla - davidbelesp"/>
+		<meta name="robots" content="all"/>
+		<!-- Open Graph -->
+		<meta name="og:title" content="David Beltrán Esperilla - Developer Portfolio"/>
+		<meta name="og:description" content="David Beltrán Esperilla - Developer Portfolio"/>
+		<meta name="og:type" content="website"/>
+		<meta name="og:url" content="https://davidbelesp.com"/>
+		<meta name="twitter:card" content="summary"/>
+		
+		<meta name="description" content="David Beltrán Esperilla - Developer Portfolio">
+		<meta name="keywords" content="Portfolio, Developer, David Beltrán Esperilla, davidbelesp, "/>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	</head>
 	<body>
-		<slot />
+		<MainComponent />
 	</body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
+<style is:global>
+	@import "../styles/global.css";
 </style>
