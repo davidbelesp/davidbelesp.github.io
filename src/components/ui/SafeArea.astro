@@ -1,0 +1,13 @@
+---
+const { height = '30px' } = Astro.props;
+---
+
+<div class="safe-area" style={{ height: height }}></div>
+
+<style>
+  .safe-area {
+    width: 100%;
+    display: block;
+    flex-shrink: 0;
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+const { text, style } = Astro.props;
+---
+
+<h1 class="animated-text" data-text={text} style={style}>
+  {text}
+</h1>
+
+<style lang="scss">
+  :root {
+    --size: 1.2rem;
+  }
+
+  .animated-text {
+    font-size: var(--size);
+    font-weight: 900;
+    text-transform: uppercase;
+
+    padding: 0px 10px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: white;
+      color: black;
+
+      clip-path: polygon(
+        10px 0%,
+        100% 0,
+        100% calc(100% - 10px),
+        calc(100% - 10px) 100%,
+        0 100%,
+        0 10px
+      );
+    }
+  }
+</style>
+
+<script>
+  const elements = document.querySelectorAll(".animated-text");
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+  elements.forEach((element) => {
+    const el = element as HTMLElement;
+    let interval: any = null;
+
+    el.addEventListener("mouseover", (event) => {
+      let iteration = 0;
+
+      clearInterval(interval);
+      const originalText = el.dataset.text || "";
+
+      const step = Math.max(1 / 4, originalText.length / 20);
+
+      interval = setInterval(() => {
+        el.innerText = originalText
+          .split("")
+          .map((letter, index) => {
+            if (index < iteration) {
+              return originalText[index];
+            }
+            return letters[Math.floor(Math.random() * letters.length)];
+          })
+          .join("");
+
+        if (iteration >= originalText.length) {
+          clearInterval(interval);
+        }
+
+        iteration += step;
+      }, 45);
+    });
+  });
+</script>

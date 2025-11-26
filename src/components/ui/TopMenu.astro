@@ -1,0 +1,263 @@
+---
+import astroLogo from "@/assets/astro.svg";
+import { Image } from "astro:assets";
+import TextAnimated from "./TextAnimated.astro";
+import menubtn from "@/assets/menubtn.svg";
+---
+
+<nav class="menu-wrapper">
+  <div class="menu">
+    <div class="left-container">
+      <Image src={astroLogo} alt="Logo" class="w-8 h-8 mr-2" />
+      <TextAnimated text="DAVID" />
+    </div>
+
+    <div class="right-container">
+      <div class="links hidden md:flex">
+        <TextAnimated text="Knowledge" />
+        <TextAnimated text="Projects" />
+        <TextAnimated text="Experience" />
+        <TextAnimated text="Contact" />
+      </div>
+
+      <div class="buttons">
+        <div class="menu-btn" id="menu-toggle">
+          <div class="open-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-menu-icon lucide-menu"
+              ><path d="M4 5h16"></path><path d="M4 12h16"></path><path
+                d="M4 19h16"></path></svg
+            >
+          </div>
+          <div class="close-btn">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-x-icon lucide-x"
+              ><path d="M18 6L6 18"></path><path d="M6 6l12 12"></path></svg
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="fullscreen-menu" id="fullscreen-menu">
+  <div class="fs-content">
+    <nav class="fs-links">
+      <a href="#">Knowledge</a>
+      <a href="#">Projects</a>
+      <a href="#">Experience</a>
+      <a href="#">Contact</a>
+    </nav>
+  </div>
+  
+  <footer class="fs-footer">
+    <p>&copy; 2025 davidbelesp. All rights reserved.</p>
+    <div class="socials">
+        <span>Twitter</span>
+        <span>Github</span>
+    </div>
+  </footer>
+</div>
+
+<style lang="scss">
+@reference "tailwindcss";
+  /* --- Main Menu Bar Styles --- */
+  .menu-wrapper {
+    @apply flex justify-center items-center;
+    width: 100%;
+    position: fixed; /* Fixed to keep bar visible when scrolling or overlay opens */
+    top: 0;
+    left: 0;
+    z-index: 100; /* Higher than the overlay */
+  }
+
+  .menu {
+    @apply flex justify-between items-center;
+    width: 60%;
+    min-width: 300px; /* Lowered min-width for mobile support */
+    @media (min-width: 768px) {
+        min-width: 600px;
+    }
+
+    padding: 10px 20px;
+    margin-top: 10px;
+
+    background-color: black;
+    border-radius: 5px;
+    color: white;
+    transition: background-color 0.3s ease;
+  }
+
+  .left-container {
+    @apply flex items-center;
+    font-weight: bold;
+  }
+
+  .right-container {
+    @apply flex items-center;
+    gap: 1rem;
+  }
+
+  .links {
+    @apply flex items-center gap-4;
+    
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+
+    transform: translateY(0);
+    pointer-events: auto;
+
+    a {
+        text-decoration: none;
+        color: white;
+        font-size: 0.9rem;
+        &:hover { opacity: 0.8; }
+    }
+
+    /* 3. Disabled State (Applied by your JS) */
+    &.disabled {
+        opacity: 0;
+        pointer-events: none; /* Prevents clicking the invisible links */
+        transform: translateY(-10px); /* Optional: slides them up slightly while fading */
+    }
+  }
+
+  /* --- Button Logic --- */
+  .menu-btn {
+    @apply flex items-center justify-center;
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    position: relative;
+    z-index: 101; 
+  }
+
+  .open-btn, .close-btn {
+    position: absolute;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Default state: Show Hamburger, Hide X */
+  .open-btn { opacity: 1; transform: rotate(0deg) scale(1); }
+  .close-btn { opacity: 0; transform: rotate(0deg) scale(0); pointer-events: none; }
+
+  /* Active state (applied via JS): Hide Hamburger, Show X */
+  :global(.menu-active) .open-btn { 
+    opacity: 0; 
+    transform: rotate(90deg) scale(0); 
+  }
+  :global(.menu-active) .close-btn { 
+    opacity: 1; 
+    transform: rotate(90deg) scale(1); 
+    pointer-events: auto; 
+  }
+
+
+  /* --- Fullscreen Overlay Styles --- */
+  .fullscreen-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #000;
+    z-index: 90;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: all 0.4s ease-in-out;
+    transform: translateY(-20px);
+  }
+
+  /* Open State */
+  :global(.menu-active) .fullscreen-menu {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .fs-content {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .fs-links {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    text-align: center;
+
+    a {
+        color: white;
+        font-size: 3rem; /* Large text for full screen */
+        font-weight: 700;
+        text-decoration: none;
+        text-transform: uppercase;
+        transition: color 0.3s;
+        
+        &:hover {
+            color: #ff0055; /* Accent color */
+        }
+    }
+  }
+
+  .fs-footer {
+    padding-bottom: 3rem;
+    color: #888;
+    text-align: center;
+    
+    p { margin-bottom: 0.5rem; }
+    
+    .socials {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        span { cursor: pointer; &:hover { color: white; } }
+    }
+  }
+</style>
+
+<script>
+  const menuBtn = document.getElementById('menu-toggle');
+  const body = document.body;
+
+  if (menuBtn) {
+    menuBtn.addEventListener('click', () => {
+      body.classList.toggle('menu-active');
+
+      const links = document.querySelectorAll('.links');
+      links.forEach((link) => {
+        link.classList.toggle('disabled');
+      });
+    });
+  }
+</script>

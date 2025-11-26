@@ -1,0 +1,42 @@
+@charset "UTF-8";
+@import "tailwindcss";
+
+/* Custom fonts */
+
+@font-face {
+font-family: 'JetBrainsMono';
+    src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrainsMonoBold';
+    src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Tailwind theme */
+
+@theme {
+  --font-brand: 'JetBrainsMono', sans-serif;
+}
+
+/* Basic Styles */
+
+body, html {
+    @apply font-brand;
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    @apply text-4xl;
+    padding: 0;
+    margin: 0;
+}
+
+/* Custom Styles */

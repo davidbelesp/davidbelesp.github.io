@@ -1,6 +1,6 @@
 ---
-import MainComponent from "@/components/MainComponent.astro";
-import TopMenu from "@/components/TopMenu.astro";
+import MainComponent from "@/components/sections/MainComponent.astro";
+import Background from "@/components/sections/Background.astro";
 ---
 
 <!doctype html>
@@ -27,10 +27,12 @@ import TopMenu from "@/components/TopMenu.astro";
 
 	</head>
 	<body>
+		<Background />
+		
 		<MainComponent />
 	</body>
 </html>
 
-<style is:global>
-	@import "../styles/global.css";
+<style is:global lang="scss">
+	@import "../styles/global.scss";
 </style>
