@@ -5,6 +5,8 @@
 <div id="canvas-container"></div>
 
 <style lang="scss">
+  @use "sass:math";
+
   #canvas-container {
     position: fixed;
     top: 0;
@@ -13,31 +15,51 @@
     height: 100vh;
     z-index: -1;
     overflow: hidden;
-    background: linear-gradient(to bottom, #780e0e, #180801);
+
+    /* Blur background depending on scroll progress */
+    $start-threshold: 16;
+    $blur-multiplier: 0.1px;
+    $max-blur: 10px;
+
+    filter: blur(
+      min(
+        $max-blur,
+        calc(
+          max(0, var(--scroll-progress) - $start-threshold) * $blur-multiplier
+        )
+      )
+    );
   }
 </style>
 
 <script>
   import * as THREE from "three";
 
-  var figureSize = 2;
-  var mouseDown = false;
+  // Constants
+  const FIGURE_SIZE = 2;
+  const ATTRACTION_STRENGTH = 0.0007;
+  const SPRING_STRENGTH = 0.05;
+  const FRICTION = 0.92;
+  const MAX_DISPLACEMENT = 2;
+  // --- Reusable Global Variables ---
+  const _mouse3D = new THREE.Vector3();
+  const _attractionDir = new THREE.Vector3();
+  const _springDir = new THREE.Vector3();
+  const _velocity = new THREE.Vector3(0, 0, 0);
+  const _originalPosition = new THREE.Vector3(0, 0, 0);
 
   const colors = {
-    green: convertColor(0, 255, 0),
-    red: convertColor(255, 0, 0),
     pink: convertColor(255, 177, 121),
-    blue: convertColor(0, 0, 255),
-    black: convertColor(0, 0, 0),
     white: convertColor(255, 255, 255),
+    blue: convertColor(13, 141, 255),
   };
 
-  function convertColor(red:number, green:number, blue:number) {
-    return new THREE.Color(red/255, green/255, blue/255);
+  function convertColor(r: number, g: number, b: number) {
+    return new THREE.Color(r / 255, g / 255, b / 255);
   }
 
   function getIcosahedron() {
-    const geometry = new THREE.IcosahedronGeometry(figureSize, 0);
+    const geometry = new THREE.IcosahedronGeometry(FIGURE_SIZE, 0);
 
     const solidMaterial = new THREE.MeshBasicMaterial({
       color: colors.pink,
@@ -52,9 +74,11 @@
     const solidMesh = new THREE.Mesh(geometry, solidMaterial);
 
     const wireMaterial = new THREE.MeshBasicMaterial({
-      color: colors.black,
+      color: colors.white,
       wireframe: true,
+      side: THREE.DoubleSide,
     });
+
     const wireMesh = new THREE.Mesh(geometry, wireMaterial);
     solidMesh.add(wireMesh);
 
@@ -63,131 +87,90 @@
 
   function init() {
     const container = document.getElementById("canvas-container");
+    if (!container) return;
 
-    if (!container) {
-      return;
-    }
-
+    // Scene
     const scene = new THREE.Scene();
-
-    scene.fog = new THREE.Fog(colors.red, 4, 8);
+    scene.fog = new THREE.Fog(colors.blue, 4, 15);
 
     // Camera
     const camera = new THREE.PerspectiveCamera(
       75,
       window.innerWidth / window.innerHeight,
       0.1,
-      1000
+      200
     );
-    camera.position.z = 5;
+    camera.position.z = 1;
 
     // Renderer
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({
+      alpha: true,
+      antialias: window.devicePixelRatio < 2,
+    });
+
     renderer.setSize(window.innerWidth, window.innerHeight);
-    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     container.appendChild(renderer.domElement);
 
     // Objects
     const icosahedron = getIcosahedron();
     scene.add(icosahedron);
 
-    // Interaction State
+    // Interaction
     const mouse = new THREE.Vector2();
     const raycaster = new THREE.Raycaster();
     const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
-    const mouse3D = new THREE.Vector3();
 
-    // Physics State
-    const originalPosition = new THREE.Vector3(0, 0, 0);
-    const velocity = new THREE.Vector3(0, 0, 0);
-    const repulsionRadius = 4;
-    const repulsionStrength = 0.1;
-    const springStrength = 0.05;
-    const friction = 0.5;
-
-    // Mouse Move Handler
+    // Listeners
     window.addEventListener("mousemove", (event) => {
       mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
     });
 
-    // Camera Zoom Logic
-    let targetZ = 5;
-    const zoomSpeed = 0.08;
-
-    document.addEventListener("mousedown", () => {
-      mouseDown = true;
-      // Zoom out
-      targetZ = 7;
-    });
-
-    document.addEventListener("mouseup", () => {
-      mouseDown = false;
-      targetZ = 5;
-    });
-
-    // Add this inside the animate loop
-    const updateCamera = () => {
-      camera.position.z += (targetZ - camera.position.z) * zoomSpeed;
-    };
-
-    // Animation
-    const animate = () => {
-      requestAnimationFrame(animate);
-
-      // 1. Calculate Mouse Position in 3D (z=0)
-      raycaster.setFromCamera(mouse, camera);
-      raycaster.ray.intersectPlane(plane, mouse3D);
-
-      // 2. Physics Logic
-      const distance = icosahedron.position.distanceTo(mouse3D);
-
-      // Repulsion Force
-      if (distance < repulsionRadius) {
-        const repulsionDir = new THREE.Vector3()
-          .subVectors(icosahedron.position, mouse3D)
-          .normalize();
-        const force = (1 - distance / repulsionRadius) * repulsionStrength;
-        velocity.add(repulsionDir.multiplyScalar(force));
-      }
-
-      // Spring Force (Return to center)
-      const springDir = new THREE.Vector3(
-        figureSize,
-        figureSize,
-        figureSize
-      ).subVectors(originalPosition, icosahedron.position);
-      velocity.add(springDir.multiplyScalar(springStrength));
-
-      // Apply Velocity & Friction
-      velocity.multiplyScalar(friction);
-      icosahedron.position.add(velocity);
-
-      // Rotation (keep it spinning)
-      icosahedron.rotation.x += 0.01;
-      icosahedron.rotation.y += 0.01;
-
-      // spin faster if mouse held
-      if (mouseDown) {
-        icosahedron.rotation.x += 0.02;
-        icosahedron.rotation.y += 0.02;
-      }
-
-      renderer.render(scene, camera);
-      updateCamera();
-    };
-
-    animate();
-
-    // Resize
     window.addEventListener("resize", () => {
       camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
     });
+
+    // Animation Loop
+    const animate = () => {
+      requestAnimationFrame(animate);
+
+      // Get Mouse Position
+      raycaster.setFromCamera(mouse, camera);
+      raycaster.ray.intersectPlane(plane, _mouse3D);
+
+      // Physics Calculation
+      const distance = icosahedron.position.distanceTo(_mouse3D);
+      _attractionDir.subVectors(_mouse3D, icosahedron.position).normalize();
+      const force = distance * ATTRACTION_STRENGTH;
+      _velocity.add(_attractionDir.multiplyScalar(force));
+
+      // Spring Force (Always pulls to center)
+      _springDir.subVectors(_originalPosition, icosahedron.position);
+      _velocity.add(_springDir.multiplyScalar(SPRING_STRENGTH));
+
+      // Apply Friction & Move
+      _velocity.multiplyScalar(FRICTION);
+      icosahedron.position.add(_velocity);
+
+      // If the figure has drifted too far, clamp it to the max radius
+      if (icosahedron.position.length() > MAX_DISPLACEMENT) {
+        icosahedron.position.setLength(MAX_DISPLACEMENT);
+        _velocity.multiplyScalar(0.5);
+      }
+
+      // Rotation
+      icosahedron.rotation.x += 0.0007;
+      icosahedron.rotation.y += 0.00068;
+
+      renderer.render(scene, camera);
+    };
+
+    animate();
   }
 
-  // Ensure DOM is ready
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);
   } else {

@@ -1,0 +1,233 @@
+---
+const projects = [
+    {
+        title: "NEF",
+        description: "Description of project 1",
+        link: "#",
+        languages: ["html5", "css3", "javascript"]
+    },
+    {
+        title: "Project 2",
+        description: "Description of project 2",
+        link: "#",
+        languages: ["html5", "css3", "javascript"]
+    },
+    {
+        title: "Project 3",
+        description: "Description of project 3",
+        link: "#",
+        languages: ["html5", "css3", "javascript"]
+    }
+]
+import ScrollingText from "@/components/ui/ScrollingText.astro";
+---
+
+
+<section id="projects">
+    
+    <div class="projects-title">
+        <h2 class="title" data-value="PROJECTS">PROJECTS</h2>
+    </div>
+
+    <div class="project-list">
+        {projects.map((project) => (
+            <div class="project">
+                <div class="project-left">
+                    <div class="project-title">{project.title}</div>
+                    <span class="project-languages">
+                        {project.languages.map((language) => (
+                            <i class={`language-logo devicon-${language}-plain`} />
+                        ))}
+                    </span>
+                </div>
+                <div class="project-right">
+                <div class="project-description">
+                    <p class="project-description-text">{project.description}</p>
+                    <a href="#" target="_blank" class="project-link">View ➜</a>
+                </div>
+            </div>
+        </div>
+        ))}
+    </div>
+</section>
+
+<style lang="scss">
+    @reference "tailwindcss";
+
+    #projects {
+        @apply flex flex-col justify-start items-center;
+        min-height: 100vh;
+        min-width: 100%;
+        padding: 2rem;
+        padding-top: 0;
+        margin-top: 2rem;
+    }
+
+    .projects-title {
+        @apply flex flex-col justify-center items-start;
+        width: 100%;
+        margin-bottom: 4rem;
+        position: relative;
+    }
+
+    .title {
+        @apply text-6xl font-bold tracking-widest;
+        color: white;
+        margin-bottom: 1rem;
+    }
+
+    .line {
+        height: 2px;
+        background: white;
+        width: 0%;
+        transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .projects-title.visible .line {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .project-list {
+        @apply flex flex-col justify-start items-center;
+        width: 100%;
+        gap: 0; 
+        padding-bottom: 5rem;
+    }
+
+    .project {
+        color: white;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        
+        position: relative; 
+        border-top: 2px solid;
+        border-bottom: 2px solid;
+        
+        border-color: rgba(255, 255, 255, 0.3);
+        margin-top: -2px; 
+
+        min-height: 260px;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        
+        will-change: opacity, border-color, transform; 
+    }
+
+    .project:first-child {
+        margin-top: 0;
+    }
+
+    .project-left {
+        @apply flex flex-col justify-between items-start;
+        flex: 1;
+    }
+
+    .project-right {
+        @apply flex flex-col justify-between items-end;
+        flex: 1;
+    }
+
+    .project-title {
+        @apply text-3xl font-bold;
+    }
+
+    .project-description {
+        @apply flex flex-col justify-start items-center;
+    }
+
+    .project-description-text {
+        @apply text-lg;
+        margin-bottom: 1rem;
+    }
+
+    .project-link {
+        @apply text-lg;
+        background-color: white;
+        color: black;
+        padding: 0.5rem 1rem;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: transform 0.2s;
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+    
+    .project-languages {
+        display: flex;
+        gap: 10px;
+        font-size: 2rem;
+    }
+</style>
+
+<script>
+    const projects = document.querySelectorAll('.project') as NodeListOf<HTMLElement>;
+    
+    const minOpacity = 0.3; 
+    const range = 400;      
+
+    function animateProjects() {
+        const center = window.innerHeight / 2;
+
+        projects.forEach((project) => {
+            const rect = project.getBoundingClientRect();
+            const projectCenter = rect.top + (rect.height / 2);
+            const distance = Math.abs(center - projectCenter);
+
+            let opacity = 1 - (distance / range);
+            opacity = Math.max(minOpacity, Math.min(1, opacity));
+
+            project.style.opacity = opacity.toString();
+            project.style.borderColor = `rgba(255, 255, 255, ${opacity})`;
+            project.style.zIndex = opacity > 0.8 ? "10" : "1";
+        });
+
+        requestAnimationFrame(animateProjects);
+    }
+
+    animateProjects();
+</script>
+
+
+<script>
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let interval: any = null;
+
+    const h2 = document.querySelector(".title") as HTMLElement;
+
+    // We use IntersectionObserver so it runs when the user scrolls to it
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                let iteration = 0;
+                clearInterval(interval);
+
+                interval = setInterval(() => {
+                    entry.target.innerText = entry.target.innerText
+                        .split("")
+                        .map((letter, index) => {
+                            if (index < iteration) {
+                                return (entry.target as HTMLElement).dataset.value![index];
+                            }
+                            return letters[Math.floor(Math.random() * 26)];
+                        })
+                        .join("");
+
+                    if (iteration >= (entry.target as HTMLElement).dataset.value!.length) {
+                        clearInterval(interval);
+                    }
+
+                    iteration += 1 / 3; // Speed of decoding
+                }, 30);
+                
+                // Add class to expand the line
+                entry.target.parentElement?.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.5 });
+
+    if (h2) observer.observe(h2);
+</script>

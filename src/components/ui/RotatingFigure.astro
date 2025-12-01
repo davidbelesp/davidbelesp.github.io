@@ -1,0 +1,220 @@
+---
+interface Props {
+  type?: "dodecahedron" | "sphere";
+  width?: string;
+  height?: string;
+  class?: string;
+}
+
+const {
+  type = "dodecahedron",
+  width = "310px",
+  height = "100px",
+  class: className,
+} = Astro.props;
+---
+
+<div
+  class:list={["figure-container relative", className]}
+  style={{ width, height }}
+>
+  <canvas class="rotating-figure-canvas" data-type={type}></canvas>
+</div>
+
+<script>
+  import * as THREE from "three";
+
+  // --- Shared Utilities ---
+  function convertColor(r: number, g: number, b: number) {
+    return new THREE.Color(r / 255, g / 255, b / 255);
+  }
+
+  const colors = {
+    gray: convertColor(160, 160, 160),
+    black: convertColor(0, 0, 0),
+  };
+
+  // --- The Figure Class (Encapsulates logic per instance) ---
+  class RotatingFigure {
+
+    canvas: HTMLCanvasElement;
+    type: string;
+
+    width: number;
+    height: number;
+
+    clock: THREE.Clock;
+    isAnimating: boolean;
+
+    scene: THREE.Scene | undefined;
+    camera: THREE.PerspectiveCamera | undefined;
+    renderer: THREE.WebGLRenderer | undefined;
+    figure: THREE.Mesh | THREE.LineSegments | undefined;
+    observer: IntersectionObserver | undefined;
+
+    constructor(canvas: HTMLCanvasElement) {
+      this.canvas = canvas;
+      this.type = canvas.dataset.type || "dodecahedron";
+
+      // Get dimensions from the parent container
+      this.width = canvas.parentElement!.clientWidth;
+      this.height = canvas.parentElement!.clientHeight;
+      this.clock = new THREE.Clock();
+      this.isAnimating = false;
+
+      this.init();
+    }
+
+    init() {
+      // Scene
+      this.scene = new THREE.Scene();
+
+      // Camera
+      this.camera = new THREE.PerspectiveCamera(
+        75,
+        this.width / this.height,
+        0.1,
+        1000
+      );
+      this.camera.position.z = 2;
+
+      // Renderer
+      this.renderer = new THREE.WebGLRenderer({
+        canvas: this.canvas,
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance",
+      });
+      this.renderer.setSize(this.width, this.height);
+      this.renderer.setPixelRatio(window.devicePixelRatio);
+      this.renderer.setClearColor(0x000000, 0);
+
+      // Geometric Figure
+      this.figure = this.getFigure(this.type);
+      this.scene.add(this.figure);
+
+      // Animation
+      this.animate = this.animate.bind(this);
+
+      this.observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            if (!this.isAnimating) {
+              this.isAnimating = true;
+              this.clock.start();
+              this.animate();
+            }
+          } else {
+            this.isAnimating = false;
+          }
+        });
+      });
+
+      this.observer.observe(this.canvas);
+
+      window.addEventListener("resize", () => this.onResize());
+    }
+
+    onResize() {
+      this.width = this.canvas.parentElement!.clientWidth;
+      this.height = this.canvas.parentElement!.clientHeight;
+      this.camera!.aspect = this.width / this.height;
+      this.camera!.updateProjectionMatrix();
+      this.renderer!.setSize(this.width, this.height);
+    }
+    
+    getFigure(type: string) {
+      if (type === "sphere") return this.createPointSphere();
+      return this.createDodecahedron();
+    }
+
+    createPointSphere() {
+      const geometry = new THREE.IcosahedronGeometry(1, 4);
+      const material = new THREE.PointsMaterial({
+        color: colors.gray,
+        size: 0.07,
+        sizeAttenuation: true,
+      });
+      const points = new THREE.Points(geometry, material);
+
+      // Blocker
+      const blocker = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(0.96, 4),
+        new THREE.MeshBasicMaterial({ color: 0x000000, opacity: 0 })
+      );
+      points.add(blocker);
+      return points;
+    }
+
+    createDodecahedron() {
+      const geometry = new THREE.DodecahedronGeometry(1, 0);
+
+      const solidMesh = new THREE.Mesh(
+        geometry,
+        new THREE.MeshBasicMaterial({
+          color: colors.black,
+          transparent: true,
+          opacity: 0.66,
+          side: THREE.DoubleSide,
+          polygonOffset: true,
+          polygonOffsetFactor: 1,
+          polygonOffsetUnits: 1,
+        })
+      );
+
+      const wireMesh = new THREE.LineSegments(
+        new THREE.EdgesGeometry(geometry),
+        new THREE.LineBasicMaterial({ color: colors.gray })
+      );
+      solidMesh.add(wireMesh);
+
+      return solidMesh;
+    }
+
+    animate() {
+      if (!this.isAnimating) return;
+
+      requestAnimationFrame(this.animate);
+
+      const delta = this.clock.getDelta();
+
+      this.figure!.rotation.y += 0.5 * delta;
+      this.figure!.rotation.x += 0.2 * delta;
+
+      this.renderer!.render(this.scene!, this.camera!);
+    }
+  }
+
+  function initFigures() {
+    const canvases = document.querySelectorAll(".rotating-figure-canvas");
+    canvases.forEach((canvas) => {
+      if (canvas && !canvas.dataset.initialized) {
+        new RotatingFigure(canvas as HTMLCanvasElement);
+        canvas.dataset.initialized = "true";
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initFigures);
+  } else {
+    initFigures();
+  }
+
+  const canvases = document.querySelectorAll(".rotating-figure-canvas");
+
+  canvases.forEach((canvas) => {
+    if (!canvas.dataset.initialized) {
+      new RotatingFigure(canvas as HTMLCanvasElement);
+      canvas.dataset.initialized = "true";
+    }
+  });
+</script>
+
+<style lang="scss">
+  @reference "tailwindcss";
+
+  .figure-container {
+    display: inline-block;
+  }
+</style>

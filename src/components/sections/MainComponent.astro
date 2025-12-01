@@ -2,20 +2,21 @@
 import TopMenu from "@/components/ui/TopMenu.astro";
 import Landing from "@/components/sections/Landing.astro";
 import Languages from "@/components/sections/Languages.astro";
+import Projects from "@/components/sections/Projects.astro";
+import Experience from "@/components/sections/Experience.astro";
 ---
 
-<div class="container">
+<div class="main-wrapper">
   <TopMenu />
   <Landing />
   <Languages />
+  <Projects />
+  <Experience />
 </div>
 
 <style lang="scss">
-  .container {
+  .main-wrapper {
     min-height: 100vh;
-    min-width: 100vw;
-
-    overflow-x: hidden;
-    
+    width: 100%;
   }
 </style>

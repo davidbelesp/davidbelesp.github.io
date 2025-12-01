@@ -1,87 +1,289 @@
 ---
+// Landing.astro
 ---
 
-<div class="landing">
-    <div class="bottom-content">
-        <div class="title">
-            <div class="first-name">David </div>
-            <div class="middle-name">Beltrán </div>
-            <div class="lastname">Esperilla</div>
-        </div>
-        <div class="socials">
-            <div class="social">
-                <div class="social-logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github-icon lucide-github"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></div>
-                <div class="social-title">Github</div>
-            </div>
-            <div class="social">
-                <div class="social-logo"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram-icon lucide-instagram"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg></div>
-                <div class="social-title">Instagram</div>
-            </div>
-            <div class="social">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin-icon lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-                <div class="social-title">Linkedin</div>
-            </div>
-        </div>
-        <div class="scroll">[SCROLL]</div>
-
+<div class="landing-wrapper" id="landing">
+  <div class="landing">
+    <div class="moving-title" id="moving-title">
+      <div class="name-part" id="name-1">David</div>
+      <div class="name-part" id="name-2">Beltrán</div>
+      <div class="name-part" id="name-3">Esperilla</div>
     </div>
-    
+
+    <div class="bottom-content">
+      <div class="name-placeholder"></div>
+      <div class="scroll">[SCROLL]</div>
+      <div class="socials">
+        <a
+          href="https://github.com/davidbelesp"
+          class="social-link"
+          target="_blank"
+        >
+          <div class="social">
+            <div class="social-logo">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-github-icon lucide-github"
+                ><path
+                  d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"
+                ></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg
+              >
+            </div>
+          </div>
+        </a>
+        <a
+          href="https://www.instagram.com/davidbelesp/"
+          class="social-link"
+          target="_blank"
+        >
+          <div class="social">
+            <div class="social-logo">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-instagram-icon lucide-instagram"
+                ><rect width="20" height="20" x="2" y="2" rx="5" ry="5"
+                ></rect><path
+                  d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"
+                ></path><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"
+                ></line></svg
+              >
+            </div>
+          </div>
+        </a>
+        <a
+          href="https://es.linkedin.com/in/david-beltran-esperilla-93836427b"
+          class="social-link"
+          target="_blank"
+        >
+          <div class="social">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="lucide lucide-linkedin-icon lucide-linkedin"
+              ><path
+                d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+              ></path><rect width="4" height="12" x="2" y="9"></rect><circle
+                cx="4"
+                cy="4"
+                r="2"></circle></svg
+            >
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>
 
 <style lang="scss">
-    @reference "tailwindcss";
-    
-    .landing {
-        @apply flex flex-col justify-end items-center;
+  @reference "tailwindcss";
 
-        min-height: 100vh;
-        min-width: 100vw;
+  .landing-wrapper {
+    height: 300vh;
+    width: 100%;
+    position: relative;
+    background: transparent;
+  }
+
+  .landing {
+    @apply flex flex-col justify-end items-center;
+    position: sticky;
+    top: 0;
+    height: 120vh;
+    padding-bottom: 20vh;
+    background: transparent;
+    overflow: hidden;
+
+    // The Moving Text
+    .moving-title {
+      @apply font-bold;
+      font-size: 5vw;
+      font-family: "JetBrainsMono", sans-serif;
+      color: white;
+      white-space: nowrap;
+      z-index: 10;
+
+      // bit of shadow for better reading
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      
+      will-change: transform, top, left, font-size;
+
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      display: flex;
+      flex-direction: row;
+      gap: 1.5rem;
+
+      .name-part {
+        display: inline-block;
+        transition: none;
+        will-change: transform;
+      }
     }
 
+    // Bottom UI
     .bottom-content {
-        @apply flex flex-row justify-between;
-        width: 100%;
-        padding: 2rem 4rem;
+      @apply flex flex-row justify-between;
+      width: 100%;
+      padding: 2rem 4rem;
+      color: white;
+      z-index: 20;
 
-        color: white;
-    }
-
-    .title {
-        @apply text-7xl font-bold;
-        display: flex;
-        flex-direction: column;
-
+      .name-placeholder {
         flex: 1;
-    }
+      }
 
-    .socials {
-        @apply flex flex-row justify-between;
-        align-self: flex-end;
-        width: 30%;
-    }
-    
-    .social {
-        @apply text-2xl font-bold;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .social-title {
-        @apply text-sm font-bold;
-    }
-
-    .social-logo {
-        @apply text-2xl font-bold;
-    }
-
-    .scroll {
-        @apply flex justify-end font-bold;
+      .scroll {
+        @apply flex justify-center font-bold;
         color: rgba(255, 255, 255, 0.5);
         align-self: flex-end;
         flex: 1;
-
         user-select: none;
+      }
+
+      .socials {
+        @apply flex flex-col justify-between items-end;
+        align-self: flex-end;
+        width: 30%;
+        gap: 1rem;
+
+        .social {
+          @apply text-2xl font-bold flex items-center justify-center gap-4;
+
+          &-title {
+            @apply text-sm font-bold;
+          }
+
+          &-logo {
+            @apply text-2xl font-bold;
+          }
+        }
+      }
     }
+  }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const wrapper = document.querySelector(".landing-wrapper");
+    const titleContainer = document.querySelector(".moving-title");
+
+    const name1 = document.getElementById("name-1");
+    const name2 = document.getElementById("name-2");
+    const name3 = document.getElementById("name-3");
+
+    // We store endY in a variable so we can update it on resize
+    let dynamicEndY = 62;
+    let gapOffset2 = 0;
+    let gapOffset3 = 0;
+
+    // --- MATH HELPER: MAP RANGE ---
+    // This maps a value from one range to another.
+    // Example: Map width (750 to 1800) to Y-position (71 to 58)
+    function mapRange(value, inMin, inMax, outMin, outMax) {
+      return ((value - inMin) * (outMax - outMin)) / (inMax - inMin) + outMin;
+    }
+
+    function updateDimensions() {
+      const w = window.innerWidth;
+
+      // 1. CALCULATE DYNAMIC END Y
+      // Based on your data: 750px -> 71, 1800px -> 58
+      // We clamp it so it doesn't go crazy on huge 4k screens or tiny phones
+      let targetY = mapRange(w, 750, 1800, 71, 58);
+      
+      // Clamp the values for safety (keep it between 55 and 75)
+      targetY = Math.min(Math.max(targetY, 55), 75);
+      
+      dynamicEndY = targetY;
+
+      // 2. MEASURE TEXT OFFSETS
+      name2.style.transform = "none";
+      name3.style.transform = "none";
+      gapOffset2 = name2.offsetLeft;
+      gapOffset3 = name3.offsetLeft;
+
+      requestAnimationFrame(animateScroll);
+    }
+
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function animateScroll() {
+      const scrollY = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const wrapperTop = wrapper.offsetTop;
+      const wrapperHeight = wrapper.offsetHeight - windowHeight * 0.4;
+
+      let rawProgress = (scrollY - wrapperTop) / (wrapperHeight - windowHeight);
+      rawProgress = Math.min(Math.max(rawProgress, 0), 1);
+
+      const progress = easeInOutCubic(rawProgress);
+
+      const startScale = 1.0; 
+      const endScale = 0.8; 
+      const currentScale = startScale - progress * (startScale - endScale);
+
+      const startX = 50;
+      const startY = 36;
+      
+      const endX = -3; 
+      
+      // USE THE CALCULATED DYNAMIC Y
+      const endY = dynamicEndY; 
+
+      const currentX = startX - progress * (startX - endX);
+      const currentY = startY + progress * (endY - startY);
+
+      const centerOffset = 50 * (1 - progress);
+      titleContainer.style.left = `${currentX}%`;
+      titleContainer.style.top = `${currentY}%`;
+      titleContainer.style.transform = `translate(-${centerOffset}%, -${centerOffset}%) scale(${currentScale})`;
+
+      const name2X = progress * -gapOffset2;
+      const name3X = progress * -gapOffset3;
+      
+      const name2Y = progress * 1.1;
+      const name3Y = progress * 2.2;
+
+      name1.style.transform = `translate(0px, 0px)`;
+      name2.style.transform = `translate(${name2X}px, ${name2Y}em)`;
+      name3.style.transform = `translate(${name3X}px, ${name3Y}em)`;
+    }
+
+    window.addEventListener("scroll", () => {
+      requestAnimationFrame(animateScroll);
+    });
+
+    window.addEventListener("resize", updateDimensions);
+    
+    // Initial call
+    updateDimensions();
+  });
+</script>

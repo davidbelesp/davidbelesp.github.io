@@ -12,6 +12,7 @@ const { text, style } = Astro.props;
   }
 
   .animated-text {
+    font-family: var(--font-brand);
     font-size: var(--size);
     font-weight: 900;
     text-transform: uppercase;
@@ -33,6 +34,8 @@ const { text, style } = Astro.props;
       );
     }
   }
+
+  
 </style>
 
 <script>
@@ -40,19 +43,20 @@ const { text, style } = Astro.props;
   const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   elements.forEach((element) => {
-    const el = element as HTMLElement;
-    let interval: any = null;
+    if (!element.dataset.text) {
+      element.dataset.text = element.innerText;
+    }
 
-    el.addEventListener("mouseover", (event) => {
+    let interval = null;
+
+    element.addEventListener("mouseover", (event) => {
       let iteration = 0;
+      const originalText = element.dataset.text;
 
       clearInterval(interval);
-      const originalText = el.dataset.text || "";
-
-      const step = Math.max(1 / 4, originalText.length / 20);
 
       interval = setInterval(() => {
-        el.innerText = originalText
+        element.innerText = originalText
           .split("")
           .map((letter, index) => {
             if (index < iteration) {
@@ -66,8 +70,23 @@ const { text, style } = Astro.props;
           clearInterval(interval);
         }
 
-        iteration += step;
-      }, 45);
+        iteration += 1 / 3; 
+      }, 30);
     });
   });
+
+  const typingElements = document.querySelectorAll(".animated-typing");
+  typingElements.forEach((element) => {
+    const el = element as HTMLElement;
+
+    setInterval(() => {
+      if (el.innerHTML.endsWith(" _")) {
+        el.innerHTML = el.innerHTML.slice(0, -2);
+      } else {
+        el.innerHTML += " _";
+      }
+    }, 500);
+    
+  });
+
 </script>

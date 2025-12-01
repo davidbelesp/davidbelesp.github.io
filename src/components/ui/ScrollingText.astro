@@ -1,0 +1,81 @@
+---
+const { text = "»»»»»»»»»»»»»»»»»»»", direction, scrollingColor, fontSize = "10vw" } = Astro.props;
+---
+
+<div
+  class="scrolling-text"
+  aria-hidden="true"
+  data-direction={direction}
+  style={{
+    color: scrollingColor,
+    fontSize: fontSize,
+    gap: `calc(${fontSize} - (${fontSize}/ 3))`,
+    "--scrolling-color": scrollingColor,
+    "--font-size": fontSize,
+  }}
+>
+  <div class="line">
+    <!-- put as many items as text length -->
+    <span class="scrolling-item">{text}</span>
+    <span class="scrolling-item">{text}</span>
+    <span class="scrolling-item">{text}</span>
+    <span class="scrolling-item">{text}</span>
+    <span class="scrolling-item">{text}</span>
+  </div>
+</div>
+
+<style lang="scss">
+  @reference "tailwindcss";
+
+  .scrolling-text {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  .line {
+    @apply flex items-center justify-center;
+    flex: 1;
+  }
+  .scrolling-item {
+    font-size: var(--font-size);
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--scrolling-color);
+
+    font-family: "Inter", sans-serif;
+  }
+</style>
+
+<script>
+  const scrollingContainers = document.querySelectorAll(".scrolling-text");
+
+  scrollingContainers.forEach((container) => {
+    const scrollingItems = container.querySelectorAll(".scrolling-item");
+    const direction = container.dataset.direction;
+    let scrollPosition = 0;
+    const scrollSpeed = 0.2;
+
+    function animateScroll() {
+      if (scrollPosition > 100 || scrollPosition < -100) {
+        scrollPosition = 0;
+      }
+
+      if (direction === "right") {
+        scrollPosition += scrollSpeed;
+      } else {
+        scrollPosition -= scrollSpeed;
+      }
+
+      scrollingItems.forEach((item) => {
+        item.style.transform = `translate3d(${scrollPosition}%, 0, 0)`;
+      });
+
+      requestAnimationFrame(animateScroll);
+    }
+
+    animateScroll();
+  });
+</script>

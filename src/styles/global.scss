@@ -4,39 +4,61 @@
 /* Custom fonts */
 
 @font-face {
-font-family: 'JetBrainsMono';
-    src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+  font-family: "JetBrainsMono";
+  src: url("/fonts/JetBrainsMono-Regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'JetBrainsMonoBold';
-    src: url('/fonts/JetBrainsMono-Bold.woff2') format('woff2');
-    font-weight: bold;
-    font-style: normal;
-    font-display: swap;
+  font-family: "JetBrainsMonoBold";
+  src: url("/fonts/JetBrainsMono-Bold.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Amiga";
+  src: url("/fonts/Amiga.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "CurierPrime";
+  src: url("/fonts/CourierPrime-Regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
 }
 
 /* Tailwind theme */
 
 @theme {
-  --font-brand: 'JetBrainsMono', sans-serif;
+  --font-brand: "JetBrainsMono", sans-serif;
 }
 
 /* Basic Styles */
 
-body, html {
-    @apply font-brand;
-    padding: 0;
-    margin: 0;
+body,
+html {
+  @apply font-brand;
+  padding: 0;
+  margin: 0;
 }
 
 h1 {
-    @apply text-4xl;
-    padding: 0;
-    margin: 0;
+  @apply text-4xl;
+  padding: 0;
+  margin: 0;
 }
 
 /* Custom Styles */
+
+html.menu-active,
+html.menu-active body {
+  overflow: hidden;
+}

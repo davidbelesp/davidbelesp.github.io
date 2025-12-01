@@ -4,35 +4,97 @@ import Background from "@/components/sections/Background.astro";
 ---
 
 <!doctype html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-		<title>David Beltrán Esperilla</title>
-		<meta lang="en"/>
-		<meta name="author" content="David Beltrán Esperilla - davidbelesp"/>
-		<meta name="robots" content="all"/>
-		<!-- Open Graph -->
-		<meta name="og:title" content="David Beltrán Esperilla - Developer Portfolio"/>
-		<meta name="og:description" content="David Beltrán Esperilla - Developer Portfolio"/>
-		<meta name="og:type" content="website"/>
-		<meta name="og:url" content="https://davidbelesp.com"/>
-		<meta name="twitter:card" content="summary"/>
-		
-		<meta name="description" content="David Beltrán Esperilla - Developer Portfolio">
-		<meta name="keywords" content="Portfolio, Developer, David Beltrán Esperilla, davidbelesp, "/>
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+<html lang="en" style="--scroll-progress: 0;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>David Beltrán Esperilla</title>
+    <meta lang="en" />
+    <meta name="author" content="David Beltrán Esperilla - davidbelesp" />
+    <meta name="robots" content="all" />
+    <!-- Open Graph -->
+    <meta
+      name="og:title"
+      content="David Beltrán Esperilla - Developer Portfolio"
+    />
+    <meta
+      name="og:description"
+      content="David Beltrán Esperilla - Developer Portfolio"
+    />
+    <meta name="og:type" content="website" />
+    <meta name="og:url" content="https://davidbelesp.com" />
+    <meta name="twitter:card" content="summary" />
 
-	</head>
-	<body>
-		<Background />
-		
-		<MainComponent />
-	</body>
+    <meta
+      name="description"
+      content="David Beltrán Esperilla - Developer Portfolio"
+    />
+    <meta
+      name="keywords"
+      content="Portfolio, Developer, David Beltrán Esperilla, davidbelesp, "
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+    />
+
+  </head>
+  <body>
+    <Background />
+
+    <MainComponent />
+  </body>
 </html>
 
 <style is:global lang="scss">
-	@import "../styles/global.scss";
+  @import "../styles/global.scss";
+
+  body {
+    background: linear-gradient(70deg, #098292, #00042d);
+  }
 </style>
+
+<script>
+  function customConsoleMsg() {
+    console.log(
+      "\n%c💻 Made by davidbelesp ➤ https://github.com/davidbelesp",
+      "color:#1fa4b5; background:#010318; font-size:14px; display:block; padding: 10px 14px; margin-bottom: 15px; font-family: 'Roboto Mono', monospace; border: 2px solid #49eaff; border-radius: 7px;"
+    );
+  }
+
+  customConsoleMsg();
+</script>
+
+<script>
+  import Lenis from "lenis";
+
+  const speed = 2;
+
+  const lenis = new Lenis({
+    duration: speed,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+  });
+
+  function raf(time: number) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  lenis.on("scroll", (e) => {
+    // dont set scroll if html has class menu-active (when menu is open)
+    if (document.documentElement.classList.contains("menu-active")) {
+      return;
+    }
+    document.documentElement.style.setProperty(
+      "--scroll-progress",
+      (e.scroll / 100).toString()
+    );
+  });
+</script>

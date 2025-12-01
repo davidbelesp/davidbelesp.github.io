@@ -1,106 +1,351 @@
-<section class="languages-section">
-    <div class="languages">
-        <div class="title">
-            <h2>Languages</h2>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">HTML</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">CSS</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">JavaScript</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">TypeScript</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">React</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">Next.js</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">Node.js</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">Python</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">Java</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">C#</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">C++</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">C</div>
-        </div>
-        <div class="language-item">
-            <div class="language-logo"></div>
-            <div class="language-title">C</div>
-        </div>
+---
+import RotatingFigure from "../ui/RotatingFigure.astro";
+
+const languages = [
+  {
+    name: "JavaScript",
+    logo: "devicon-javascript-plain",
+  },
+  {
+    name: "TypeScript",
+    logo: "devicon-typescript-plain",
+  },
+  {
+    name: "Java",
+    logo: "devicon-java-plain",
+  },
+  {
+    name: "Python",
+    logo: "devicon-python-plain",
+  },
+  {
+    name: "HTML",
+    logo: "devicon-html5-plain",
+  },
+  {
+    name: "CSS",
+    logo: "devicon-css3-plain",
+  },
+  {
+    name: "SQL",
+    logo: "devicon-mysql-plain",
+  },
+  {
+    name: "Kotlin",
+    logo: "devicon-kotlin-plain",
+  },
+];
+
+const frameworks = [
+  {
+    name: "Angular",
+    logo: "devicon-angular-plain",
+  },
+  {
+    name: "React",
+    logo: "devicon-react-plain",
+  },
+  {
+    name: "React Native",
+    logo: "devicon-react-plain",
+  },
+  {
+    name: "Next.js",
+    logo: "devicon-nextjs-plain",
+  },
+  {
+    name: "Astro",
+    logo: "devicon-astro-plain",
+  },
+  {
+    name: "Tailwind CSS",
+    logo: "devicon-tailwindcss-plain",
+  },
+  {
+    name: "Sass",
+    logo: "devicon-sass-plain",
+  },
+  {
+    name: "MongoDB",
+    logo: "devicon-mongodb-plain",
+  },
+  {
+    name: "Expo",
+    logo: "devicon-expo-plain",
+  },
+];
+---
+
+<div class="knowledge" id="languages">
+  <section class="languages-section">
+    <div class="languages-title">
+      <div class="left-title">
+        <span style="font-size: 1.3rem;"
+          ><span style="color:gray">root: ></span><span class="animated-typing">
+            programming-languages</span
+          ></span
+        >
+      </div>
+      <div class="right-title">
+        <RotatingFigure />
+      </div>
     </div>
 
+    <div id="languages-cards">
+      {languages.map((language) => (
+        <div class="language-card">
+          <div class="language-card-border"></div>
+          <div class="language-card-content">
+            <i class={`language-card-logo ${language.logo}`}></i>
+            <p class="language-card-title">{language.name}</p>
+          </div>
+        </div>
+      ))}
+    </div>
 
-</section>
+    <div class="frameworks-title">
+      <div class="left-title">
+        <RotatingFigure type="sphere" />
+      </div>
+      <div class="right-title">
+        <span style="font-size: 1.3rem;"
+          ><span style="color:gray">root: ></span><span class="animated-typing">
+            frameworks-&-tools</span
+          ></span
+        >
+      </div>
+    </div>
+
+    <div id="frameworks-cards">
+      {frameworks.map((framework) => (
+        <div class="framework-card">
+          <div class="framework-card-border"></div>
+          <div class="framework-card-content">
+            <i class={`framework-card-logo ${framework.logo}`}></i>
+            <p class="framework-card-title">{framework.name}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</div>
 
 <style lang="scss">
-    @reference "tailwindcss";
+  @reference "tailwindcss";
 
-    .languages-section {
-        @apply flex flex-col justify-start items-center;
-        min-height: 100vh;
-        min-width: 100vw;
+  :root {
+    --card-color: #232323;
+    --card-hover-color: #ffffff;
+    --bg-color: #0d0d0d;
+  }
 
-        padding: 2rem;
+  // --- Layout & Sections ---
+  .knowledge {
+    @apply flex flex-col justify-start items-center;
+    min-height: 100vh;
+    min-width: 100%;
+    padding: 1rem 1rem 5rem;
+  }
+
+  .languages-section {
+    @apply flex flex-col justify-start items-center;
+    min-height: 100vh;
+    min-width: 100%;
+    padding: 2rem;
+    background: var(--bg-color);
+    border-radius: 8px;
+  }
+
+  // --- Headers & Titles ---
+  .languages-title,
+  .frameworks-title {
+    @apply flex flex-row justify-between;
+    width: 100%;
+    font-family: "CourierPrime", monospace;
+    color: white;
+    border-bottom: 1px solid rgb(76, 76, 76);
+
+    // Inner columns
+    .left-title,
+    .right-title {
+      @apply flex flex-col justify-start items-center;
+      width: 50%;
+      padding: 2rem 4rem;
+      color: white;
     }
 
-    .languages {
-        @apply flex flex-row justify-center items-center;
-        width: 100%;
-        padding: 2rem 4rem;
-
-        flex-wrap: wrap;
-
-        background-color: white;
-        border-radius: 4px;
-        overflow: hidden;
-
-        gap: 2rem;
+    .left-title {
+      border-right: 1px solid rgb(76, 76, 76);
     }
+  }
 
-    .language-item {
-        @apply flex flex-col justify-center items-center;
-        width: 100%;
-        padding: 2rem 4rem;
-        flex: 1;
+  .title {
+    @apply text-4xl font-bold;
+    color: white;
+  }
 
-        border-radius: 5px;
-        background-color: antiquewhite
+  // --- Card Grid Containers ---
+  #languages-cards,
+  #frameworks-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 2rem;
+
+    &:hover > .language-card::after,
+    &:hover > .framework-card::after {
+      opacity: 1;
     }
+  }
 
-    .language-logo {
-        @apply w-16 h-16;
-    }
+  #languages-cards {
+    border-bottom: 1px solid rgb(76, 76, 76);
+  }
 
-    .language-title {
-        @apply text-2xl font-bold;
-    }
+  .language-card,
+  .framework-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    height: 260px;
+    width: 300px;
+    position: relative;
+    color: white;
+
+    transform-style: preserve-3d;
+    transform: perspective(1000px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
     
+    transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    
+    &:hover {
+      transition: transform 0.05s linear; 
+    }
+
+    &:hover::before {
+      opacity: 1;
+    }
+
+    &::before,
+    &::after {
+      border-radius: inherit;
+      content: "";
+      height: 100%;
+      width: 100%;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      position: absolute;
+      transition: opacity 200ms;
+    }
+
+    &::before {
+      z-index: 3;
+      background: radial-gradient(
+        800px circle at var(--mouse-x) var(--mouse-y),
+        rgba(255, 255, 255, 0.1),
+        transparent 40%
+      );
+    }
+
+    &::after {
+      z-index: 1;
+      background: radial-gradient(
+        600px circle at var(--mouse-x) var(--mouse-y),
+        rgba(255, 255, 255, 0.4),
+        transparent 40%
+      );
+    }
+
+    &-content {
+      background-color: var(--card-color);
+      border-radius: inherit;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      flex-grow: 1;
+      inset: 1px;
+      padding: 10px;
+      position: absolute;
+      z-index: 2;
+    }
+
+    &-logo {
+      @apply w-16 h-16 flex justify-center items-center;
+      flex: 1;
+      font-size: 7rem;
+    }
+
+    &-tlt {
+      align-self: center;
+      font-size: 1rem;
+    }
+
+    &-title {
+      @apply text-2xl font-bold;
+    }
+  }
 </style>
+
+<script lang="ts">
+  document.getElementById("languages-cards").onmousemove = (e) => {
+    for (const card of document.getElementsByClassName("language-card")) {
+      const rect = card.getBoundingClientRect(),
+        x = e.clientX - rect.left,
+        y = e.clientY - rect.top;
+
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    }
+  };
+
+  document.getElementById("frameworks-cards").onmousemove = (e) => {
+    for (const card of document.getElementsByClassName("framework-card")) {
+      const rect = card.getBoundingClientRect(),
+        x = e.clientX - rect.left,
+        y = e.clientY - rect.top;
+
+      card.style.setProperty("--mouse-x", `${x}px`);
+      card.style.setProperty("--mouse-y", `${y}px`);
+    }
+  };
+
+  function initTilt() {
+    const cards = document.querySelectorAll(".language-card, .framework-card");
+
+    cards.forEach((card) => {
+      card.addEventListener("mousemove", (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        
+        const rotateX = ((y - centerY) / centerY) * -10;
+        const rotateY = ((x - centerX) / centerX) * 10;
+
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+        
+        card.style.setProperty("--rotate-x", `${rotateX}deg`);
+        card.style.setProperty("--rotate-y", `${rotateY}deg`);
+      });
+
+      // Reset on mouse leave
+      card.addEventListener("mouseleave", () => {
+        card.style.setProperty("--rotate-x", "0deg");
+        card.style.setProperty("--rotate-y", "0deg");
+        card.style.setProperty("--mouse-x", `${card.offsetWidth / 2}px`);
+        card.style.setProperty("--mouse-y", `${card.offsetHeight / 2}px`);
+      });
+    });
+  }
+
+  // Initialize
+  document.addEventListener("DOMContentLoaded", initTilt);
+</script>
